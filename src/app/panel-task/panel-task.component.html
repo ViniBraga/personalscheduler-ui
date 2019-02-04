@@ -1,3 +1,17 @@
-<p-panel header="Tasks">
-  TASKS LIST
-</p-panel>
+<!--<p-panel header="Tasks">-->
+
+
+
+    <div class="panel-body">
+
+      <li *ngFor="let item of tasks;let i = index"
+        [dndDraggable]
+        [dndObject]="item"
+        (dndMoved)="removeMovedItem(i, list)"
+        [class.selected]="models.selected === item">
+        {{item.label}}
+      </li>
+
+  </div>
+
+<!--</p-panel>-->
