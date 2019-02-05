@@ -8,6 +8,7 @@ import { FormsModule } from '@angular/forms'
 import { HttpClientModule} from '@angular/common/http'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { PanelTaskComponent } from './panel-task/panel-task.component';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 
 @NgModule({
@@ -20,7 +21,8 @@ import { PanelTaskComponent } from './panel-task/panel-task.component';
     AppRoutingModule,
     FormsModule,
     HttpClientModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    DragDropModule
   ],
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA

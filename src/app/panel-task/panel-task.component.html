@@ -1,17 +1,9 @@
-<!--<p-panel header="Tasks">-->
+<p-panel header="Tasks">
 
-
-
-    <div class="panel-body">
-
-      <li *ngFor="let item of tasks;let i = index"
-        [dndDraggable]
-        [dndObject]="item"
-        (dndMoved)="removeMovedItem(i, list)"
-        [class.selected]="models.selected === item">
-        {{item.label}}
-      </li>
-
+  <div cdkDropListGroup>
+    <div cdkDropList class="example-list" (cdkDropListDropped)="drop($event)">
+      <div class="example-box" *ngFor="let task of tasks" cdkDrag>{{task.description}}</div>
+    </div>
   </div>
 
-<!--</p-panel>-->
+</p-panel>

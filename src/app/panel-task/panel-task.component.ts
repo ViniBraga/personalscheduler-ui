@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
+import { TaskService } from '../task.service';
 
 @Component({
   selector: 'app-panel-task',
@@ -7,47 +9,24 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PanelTaskComponent implements OnInit {
 
-  tasks = [
-    {
-        "id": 2,
-        "description": "Comer",
-        "lastUpdate": "2019-02-01T21:02:34.789",
-        "createdAt": "2019-02-01T21:02:11.841",
-        "done": false
-    },
-    {
-        "id": 3,
-        "description": "fazer o tema",
-        "lastUpdate": "2019-02-01T21:02:12.145",
-        "createdAt": "2019-02-01T21:02:12.145",
-        "done": false
-    },
-    {
-        "id": 4,
-        "description": "fazer o tema",
-        "lastUpdate": "2019-02-01T21:02:12.467",
-        "createdAt": "2019-02-01T21:02:12.467",
-        "done": false
-    },
-    {
-        "id": 5,
-        "description": "fazer o tema",
-        "lastUpdate": "2019-02-01T21:02:12.806",
-        "createdAt": "2019-02-01T21:02:12.806",
-        "done": false
-    },
-    {
-        "id": 6,
-        "description": "fazer o tema",
-        "lastUpdate": "2019-02-01T21:02:13.18",
-        "createdAt": "2019-02-01T21:02:13.18",
-        "done": false
+    tasks = [];
+
+    constructor(
+        private taskService: TaskService
+    ) { }
+
+    ngOnInit() {
+        this.renderScreen();
     }
-];
 
-  constructor() { }
+    renderScreen() {
+        this.taskService.list().subscribe(res => this.tasks = <any> res);
+    }
 
-  ngOnInit() {
-  }
+    drop(event: CdkDragDrop<string[]>) {
+        moveItemInArray(this.tasks, event.previousIndex, event.currentIndex);
+    }
+
+    
 
 }
