@@ -18,4 +18,12 @@ export class TaskService {
     return this.httpClient.post(this.apiUrl, task);
   }
 
+  update(task: any) {
+    return this.httpClient.put(this.apiUrl, task);
+  }
+
+  updateAll(tasks: any) {
+    return this.httpClient.put(this.apiUrl + "/all", tasks);
+  }
+
 }

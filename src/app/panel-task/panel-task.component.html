@@ -1,8 +1,8 @@
 <p-panel header="Tasks">
 
   <div cdkDropListGroup>
-    <div cdkDropList class="example-list" (cdkDropListDropped)="drop($event)">
-      <div class="example-box" *ngFor="let task of tasks" cdkDrag>{{task.description}}</div>
+    <div cdkDropList class="example-list" (cdkDropListDropped)="moveTasks($event)">
+      <div class="example-box" *ngFor="let task of tasks" cdkDrag>{{task.description}} position: {{ task.position }}</div>
     </div>
   </div>
 

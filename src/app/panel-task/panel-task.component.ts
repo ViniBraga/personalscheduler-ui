@@ -23,10 +23,24 @@ export class PanelTaskComponent implements OnInit {
         this.taskService.list().subscribe(res => this.tasks = <any> res);
     }
 
-    drop(event: CdkDragDrop<string[]>) {
+    moveTasks(event: CdkDragDrop<string[]>) {
+
         moveItemInArray(this.tasks, event.previousIndex, event.currentIndex);
+
+        let positionAttempted = event.currentIndex;
+
+        for (let index = positionAttempted; index < this.tasks.length; index++) {
+            if(index ==  event.previousIndex) {
+                this.tasks[index].position = positionAttempted;
+                index--;
+            } else {
+                this.tasks[index].position = index + 1;
+            }
+        }
+        
+        this.taskService.updateAll(this.tasks).subscribe();
+
     }
 
-    
 
 }
