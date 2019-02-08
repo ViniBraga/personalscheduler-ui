@@ -24,26 +24,50 @@ export class PanelTaskComponent implements OnInit {
     }
 
     moveTasks(event: CdkDragDrop<string[]>) {
-
         moveItemInArray(this.tasks, event.previousIndex, event.currentIndex);
-
-        this.tasks[event.previousIndex].position = event.currentIndex + 1;
-
-        var sortedTasks: string[] = this.tasks.sort((n1,n2) => {
-            if(n1.position > n2.position) return 1;
-            else return -1
-        });
-
-        this.normalizePositions(sortedTasks);
-        
-        this.taskService.updateAll(sortedTasks).subscribe();
-
+        var oldPosition = event.previousIndex;
+        var attempedPosition = event.currentIndex;
+        this.normalizePositions(oldPosition, attempedPosition);
+        // this.taskService.updateAll(this.tasks).subscribe();
     }
 
-    normalizePositions(sortedTasks) {
-        for (let index = 0; index < sortedTasks.length; index++) {
-            sortedTasks[index].position = (index + 1) * 2;
+    normalizePositions(oldPosition, attempedPosition) {
+        var movingTask = this.tasks.find(t => t.position == oldPosition);
+        if(oldPosition > attempedPosition) {
+            this.normalizePositionsUpToDown(movingTask, attempedPosition);
+        } else if (oldPosition < attempedPosition) {
+            this.normalizePositionsDownToUp(movingTask, attempedPosition);
         }
+    }
+
+    normalizePositionsUpToDown(movingTask, attempedPosition) {
+        var nextAttempedPosition = attempedPosition + 1;
+        this.normalizeRecursively(this.normalizePositionsUpToDown, movingTask, attempedPosition, nextAttempedPosition)
+        // var existingTask = this.tasks.find(t => t.position == attempedPosition);
+        // movingTask.position = attempedPosition;
+        // if(existingTask){
+        //     this.normalizePositionsUpToDown(existingTask, nextAttempedPosition);
+        // }
+    }
+
+    normalizePositionsDownToUp(movingTask, attempedPosition) {
+        var existingTask = this.tasks.find(t => t.position == attempedPosition);
+        movingTask.position = attempedPosition;
+        if(existingTask){
+            this.normalizePositionsDownToUp(existingTask, attempedPosition - 1);
+        }
+    }
+
+    normalizeRecursively(callback, movingTask, attempedPosition, nextAttempedPosition){
+        var existingTask = this.tasks.find(t => t.position == attempedPosition);
+        movingTask.position = attempedPosition;
+        if(existingTask){
+            callback(existingTask, nextAttempedPosition);
+        }
+    }
+
+    function fn(x: () => void) {
+        x();
     }
 
 }
