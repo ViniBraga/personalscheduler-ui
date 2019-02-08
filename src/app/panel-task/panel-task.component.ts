@@ -27,20 +27,23 @@ export class PanelTaskComponent implements OnInit {
 
         moveItemInArray(this.tasks, event.previousIndex, event.currentIndex);
 
-        let positionAttempted = event.currentIndex;
+        this.tasks[event.previousIndex].position = event.currentIndex + 1;
 
-        for (let index = positionAttempted; index < this.tasks.length; index++) {
-            if(index ==  event.previousIndex) {
-                this.tasks[index].position = positionAttempted;
-                index--;
-            } else {
-                this.tasks[index].position = index + 1;
-            }
-        }
+        var sortedTasks: string[] = this.tasks.sort((n1,n2) => {
+            if(n1.position > n2.position) return 1;
+            else return -1
+        });
+
+        this.normalizePositions(sortedTasks);
         
-        this.taskService.updateAll(this.tasks).subscribe();
+        this.taskService.updateAll(sortedTasks).subscribe();
 
     }
 
+    normalizePositions(sortedTasks) {
+        for (let index = 0; index < sortedTasks.length; index++) {
+            sortedTasks[index].position = (index + 1) * 2;
+        }
+    }
 
 }
